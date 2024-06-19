@@ -3,6 +3,8 @@
 
 // Configuration parameters
 const char* btServerName = "Adapy_BT_Server";
+const char* btClientName = "ESP32_BT_Client";
+
 const unsigned long resendInterval = 340; // Resend interval in milliseconds
 
 // Bluetooth Serial object
@@ -25,7 +27,7 @@ void setup() {
     }
 
     // Initialize Bluetooth
-    SerialBT.begin("ESP32_Client");
+    SerialBT.begin(btClientName);
     while (!SerialBT.connect(btServerName)) {
         Serial.println("Failed to connect, retrying...");
         delay(1000);
