@@ -25,15 +25,25 @@ void setup() {
     }
 
     // Initialize Bluetooth
-    if (!SerialBT.begin(btServerName)) {
-        Serial.println("Failed to start Bluetooth");
-        while (1);
+    SerialBT.begin("ESP32_Client");
+    while (!SerialBT.connect(btServerName)) {
+        Serial.println("Failed to connect, retrying...");
+        delay(1000);
     }
-    Serial.println("Bluetooth Client started");
+    Serial.println("Connected to server");
 }
 
 void loop() {
     unsigned long currentMillis = millis();
+
+    if (!SerialBT.connected()) {
+        Serial.println("Disconnected from Bluetooth server");
+        while (!SerialBT.connect(btServerName)) {
+            Serial.println("Reconnecting...");
+            delay(1000);
+        }
+        Serial.println("Reconnected to server");
+    }
 
     // Check button states
     for (int i = 0; i < 8; i++) {
